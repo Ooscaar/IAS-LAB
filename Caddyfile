@@ -1,7 +1,7 @@
 localhost:443 {
-    #handle /api/* {
-    #    reverse_proxy {$API_URL}
-    #}
+    handle /api/* {
+        reverse_proxy forum-backend
+    }
 
     handle {
         root * /frontend

@@ -1,8 +1,13 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 80;
 
-app.get("/", (req, res) => {
+app.get("/api/hello", (req, res) => {
+  res.cookie("id", "4444");
+  res.send("2198738927");
+});
+
+app.get("/api/*", (req, res) => {
   res.send("Hello World!");
 });
 
