@@ -1,0 +1,11 @@
+localhost:443 {
+    #handle /api/* {
+    #    reverse_proxy {$API_URL}
+    #}
+
+    handle {
+        root * /frontend
+        try_files {path} /index.html
+        file_server
+    }
+}
