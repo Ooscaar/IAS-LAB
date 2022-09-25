@@ -41,7 +41,7 @@ Response:
 ### Log in
 
 ```http
-POST /api/user/login
+POST /api/users/login
 ```
 Body:
 ```json
@@ -57,7 +57,7 @@ Response:
 ### Log out
 
 ```http
-POST /api/user/logout
+POST /api/users/logout
 ```
 
 Response:
