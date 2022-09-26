@@ -1,6 +1,5 @@
 version: "3"
 services:
-
   caddy:
     image: caddy
     container_name: forum-caddy
@@ -15,3 +14,22 @@ services:
     build: ./backend
     image: forum/backend
     container_name: forum-backend
+    environment:
+      - DATABASE_URL=postgresql://user:1234@forum-database:5432/db?schema=public
+    depends_on:
+      - postgres
+    profiles:
+      - backend
+  
+  postgres:
+    image: postgres
+    container_name: forum-database
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: "db"
+    volumes:
+      - ./db:/var/lib/postgresql/data
