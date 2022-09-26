@@ -1,6 +1,6 @@
 localhost:443 {
     handle /api/* {
-        reverse_proxy forum-backend
+        reverse_proxy forum-backend:3000
     }
 
     handle {
