@@ -17,17 +17,17 @@
 
     <div class="page" id="/register">
         <div class="user-form">
-            <form action="/api/users/login" method="POST">
+            <form id="register-form">
                 <h3>Sign Up</h3>
         
                 <label for="username">Username</label>
-                <input type="text" placeholder="Username">
+                <input type="text" placeholder="Username" name="username">
         
                 <label for="password1">Password</label>
-                <input type="password" placeholder="Password">
+                <input type="password" placeholder="Password" name="password1">
     
                 <label for="password2">Password Again</label>
-                <input type="password" placeholder="Password">
+                <input type="password" placeholder="Password" name="password2">
         
                 <button>Register</button>
             </form>
@@ -37,14 +37,14 @@
 
     <div class="page" id="/login">
         <div class="user-form">
-            <form action="/api/users/login" method="POST">
+            <form id="login-form">
                 <h3>Login</h3>
         
                 <label for="username">Username</label>
-                <input type="text" placeholder="Username">
+                <input type="text" placeholder="Username" name="username">
         
                 <label for="password">Password</label>
-                <input type="password" placeholder="Password">
+                <input type="password" placeholder="Password" name="password">
         
                 <button>Log In</button>
             </form>
