@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+    log: ["query", "info", "warn"],
+})
 
 async function main() {
     const user = await prisma.user.upsert({
@@ -13,19 +15,18 @@ async function main() {
                 create: {
                     title: 'Zero knowledge proof',
                     content: 'Zero knowledge proof is a cryptographic protocol that allows a prover to prove to a verifier that they know a value x without revealing any information besides the fact that they know x. This is done by having the prover send a commitment to x to the verifier, and then having the prover send a proof that they know x without revealing x. The verifier can then verify that the prover knows x without learning anything about x.',
+                    messages: {
+                        create: {
+                            content: 'This is a message',
+                            author: { connect: { userName: 'jesus2000' } }
+                        }
+                    }
+
                 },
             },
         },
         include: {
             posts: true,
-        }
-    })
-
-    const message = await prisma.message.create({
-        data: {
-            content: 'Message',
-            authorId: user.id,
-            postId: user.posts[0].id,
         }
     })
 
