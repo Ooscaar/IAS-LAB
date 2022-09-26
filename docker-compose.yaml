@@ -14,6 +14,7 @@ services:
     build: ./backend
     image: forum/backend
     container_name: forum-backend
+    restart: unless-stopped
     environment:
       - DATABASE_URL=postgresql://user:1234@forum-database:5432/db?schema=public
     depends_on:
