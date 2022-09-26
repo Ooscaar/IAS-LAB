@@ -5,11 +5,56 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script type="module" src="index.js"></script>
     <title>Forum</title>
 </head>
 <body>
-    Forum
 
-    <script src="index.js"></script>
+    <div class="page" id="/">
+        Hellooo
+        <button onclick="updatePath('/login')">Login</button>
+    </div>
+
+    <div class="page" id="/register">
+        <div class="user-form">
+            <form action="/api/users/login" method="POST">
+                <h3>Sign Up</h3>
+        
+                <label for="username">Username</label>
+                <input type="text" placeholder="Username">
+        
+                <label for="password1">Password</label>
+                <input type="password" placeholder="Password">
+    
+                <label for="password2">Password Again</label>
+                <input type="password" placeholder="Password">
+        
+                <button>Register</button>
+            </form>
+            <p> Already have an account? <button onclick="updatePath('/login')">Log in</button>.</p>
+        </div>
+    </div>
+
+    <div class="page" id="/login">
+        <div class="user-form">
+            <form action="/api/users/login" method="POST">
+                <h3>Login</h3>
+        
+                <label for="username">Username</label>
+                <input type="text" placeholder="Username">
+        
+                <label for="password">Password</label>
+                <input type="password" placeholder="Password">
+        
+                <button>Log In</button>
+            </form>
+            <p> New user? <button onclick="updatePath('/register')">Create an account</button>.</p>
+        </div>
+    </div>
+
+    <div class="page" id="/notfound">
+        404 Not Found
+    </div>
+
 </body>
 </html>

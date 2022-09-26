@@ -1,6 +1,15 @@
-class LoginForm extends HTMLElement {
+class Page extends HTMLElement {
+    // Aquí iría el código del elemento
+    // Eventos, funciones, etc...
 
-}
+    constructor() {
+        super();
+    }
 
-
-window.customElements.define("login-form", LoginForm);
+    connectedCallback() {
+        this.style.display = "none";
+        this.style.color = "white";
+    }
+  }
+  
+  window.customElements.define("web-page", Page);
