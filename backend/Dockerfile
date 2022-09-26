@@ -8,6 +8,10 @@ RUN npm ci
 
 COPY . .
 
-EXPOSE 80
+RUN npx prisma generate
 
-CMD node index.js
+RUN npm run build
+
+EXPOSE 3000
+
+CMD npx prisma migrate deploy && npm run seed && node dist/src/index.js
