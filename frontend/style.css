@@ -7,14 +7,14 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    color: #ffffff;
 }
 
-body{
+body {
     background-color: #080710;
 }
 
 .user-form {
-    /*height: 460px;*/
     width: 400px;
     max-width: 98%;
     background-color: rgba(255,255,255,0.13);
@@ -29,7 +29,7 @@ body{
     padding: 50px 35px 20px 35px;
 }
 
-form *{
+.user-form form *{
     font-family: 'Poppins',sans-serif;
     color: #ffffff;
     letter-spacing: 0.5px;
@@ -37,20 +37,21 @@ form *{
     border: none;
 }
 
-form h3{
+h3 {
     font-size: 32px;
     font-weight: 500;
     line-height: 42px;
     text-align: center;
 }
 
-label{
+.user-form form label {
     display: block;
     margin-top: 30px;
     font-size: 16px;
     font-weight: 500;
 }
-input{
+
+.user-form form input {
     display: block;
     height: 50px;
     width: 100%;
@@ -61,10 +62,12 @@ input{
     font-size: 14px;
     font-weight: 300;
 }
-::placeholder{
+
+::placeholder {
     color: #e5e5e5;
 }
-form button{
+
+.user-form form button {
     margin: 25px 0px;
     width: 100%;
     background-color: #ffffff;
@@ -93,4 +96,60 @@ form button{
 
 .user-form p button:hover {
     text-decoration: underline;
+}
+
+.top-bar {
+    width: 100vw;
+    height: 50px;
+    background-color: rgba(255,255,255,0.13);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 20px;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid rgba(255,255,255,0.1);
+    margin-bottom: 20px;
+}
+
+.top-bar-info {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.top-bar-info button {
+    background-color: #ffffff;
+    color: #080710;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#board {
+    width: 900px;
+    max-width: 100%;
+    margin: auto;
+    color: #ffffff;
+    background-color: rgba(255,255,255,0.13);
+    backdrop-filter: blur(10px);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.board-post {
+    background-color: rgba(255,255,255,0.07);
+    border-radius: 3px;
+    padding: 10px;
+}
+
+.board-post-title {
+    color: #58a6ff;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.board-post-title:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }

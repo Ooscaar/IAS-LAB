@@ -11,8 +11,19 @@
 <body>
 
     <div class="page" id="/">
-        Hellooo
-        <button onclick="updatePath('/login')">Login</button>
+        <div class="top-bar">
+            <h3>Forum</h3>
+            <div class="top-bar-info">
+                <p class="top-bar-info-username">User</p>
+                <button onclick="updatePath('/login')">Log out</button>
+            </div>
+        </div>
+        <div id="board">
+            <div class="board-post">
+                <p class="board-post-title" onclick="updatePath('/posts/0')">This is a test</p>
+                <p class="board-post-owner">User</p>
+            </div>
+        </div>
     </div>
 
     <div class="page" id="/register">
