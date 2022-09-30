@@ -1,22 +1,27 @@
 # Database
 
 ## Users table
-- userId
-- username
+- id
+- userName
 - password
+- roles [] 
 
 ## Posts table
 
-- postId
-- ownerId
+- id
+- created_at 
+- updated_at
 - title
+- author_id
 
 ## Messages table
 
-- postId
-- messageId
-- ownerId
-- message
+- id
+- created_at 
+- updated_at
+- content
+- author_id
+- post_id
 
 # API
 
@@ -36,6 +41,7 @@ Body:
 ```
 Response:
 - **201 Created**: user was created
+- **409 Conflict**: userName used 
 - **422 Unprocessable Entity**: user was not created due to validation failures (response body contains the error messages)
 
 ### Log in
@@ -51,8 +57,9 @@ Body:
 }
 ```
 Response:
-- **200 OK**
-- **401 Unauthorized**: Credentials are invalid
+- **200 OK**: set Cookie:sessionId
+- **401 Unauthorized**: credentials are invalid
+- **422 Unprocessable Entity**: validation failed
 
 ### Log out
 
@@ -61,8 +68,8 @@ POST /api/users/logout
 ```
 
 Response:
-- **200 OK**
-- **401 Unauthorized**: You cannot log out
+- **200 OK**: unset Cookie:sessionId
+- **401 Unauthorized**: you cannot log out
 
 ## Posts API
 
@@ -82,8 +89,11 @@ Response:
         "owner": "postOwner"
     }
     ```
-- **401 Unauthorized**: You are not logged in
-- **403 Forbidden**: You are logged in but you have no access to the post
+- **401 Unauthorized**: you are not logged in
+- **403 Forbidden**: you are logged in but you have no access to the post
+- **404 Not found**: post not found
+- **422 Unprocessable Entity***: validation failed
+
 
 ## Creating a post
 ```
@@ -101,6 +111,7 @@ Body:
 Responses:
 - **200 OK**
 - **401 Unauthorized**: You are not logged in
+- **422 Unprocessable Entity***: validation failed
 
 
 ### Listing posts
@@ -167,6 +178,7 @@ Response:
     ```
 - **401 Unauthorized**: You are not logged in
 - **403 Forbidden**: You are logged in but you have no access to the post messages
+- **404 Not found**: message not found
 
 ### Post a message
 ```
@@ -184,4 +196,7 @@ Responses:
 - **200 OK**
 - **401 Unauthorized**: You are not logged in
 - **403 Forbidden**: You are logged in but you have no access to the post messages
+- **404 Not found**: post not found
+- **422 Unprocessable Entity***: validation failed
+
 
