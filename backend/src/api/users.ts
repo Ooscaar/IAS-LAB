@@ -1,49 +1,58 @@
 import { randomBytes } from "crypto";
 import express from "express";
+import { Prisma } from "@prisma/client";
 import { prisma } from "../client";
 import { sessionMiddleware } from "../middlewares/session.middleware";
+import { compare, hash } from "bcrypt";
 
 export const users = express.Router();
 
+/**
+ * POST /users/register
+ */
 users.post("/register", async (req, res) => {
     const { username, password } = req.body as { username: string, password: string };
 
     if (!username || !password) {
-        res.status(422).json({ status: "error", message: "Missing username or password" });
+        res.status(422).json({ message: "Missing username or password" });
     }
 
     // Create new user
     try {
-        const user = await prisma.user.create({
+        const hashedPassword = await hash(password, 10);
+        await prisma.user.create({
             data: {
                 userName: username,
-                password: password
+                password: hashedPassword,
+                roles: "USER"
             }
         })
 
-        // Send 201 status code
-        res.status(201).json({
-            status: "success",
-            data: {
-                user: {
-                    userName: user.userName,
-                    roles: user.roles
-                }
-            }
-        })
+        res.status(201).send()
+
     } catch (error) {
-        // General for now
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            // User already exists error
+            if (error.code === 'P2002') {
+                console.log("User already exists");
+                res.status(409).json({ status: "error", message: "Username already taken" });
+            }
+        }
         console.log(`Error: ${error}`)
-        res.status(500).json({ message: "Internal server error" })
+        throw error;
     }
 })
 
+
+/**
+ * POST /users/login
+ */
 users.post("/login", async (req, res) => {
     console.log(JSON.stringify(req.body))
     const { username, password } = req.body as { username: string, password: string };
 
     if (!username || !password) {
-        res.status(422).json({ status: "error", message: "Missing username or password" });
+        res.status(422).json({ message: "Missing username or password" });
     }
 
     // Find user with username  
@@ -52,6 +61,11 @@ users.post("/login", async (req, res) => {
     })
 
     if (!user) {
+        return res.status(401).json({ message: "Unauthorized" })
+    }
+
+    const isPasswordValid = await compare(password, user.password);
+    if (!isPasswordValid) {
         return res.status(401).json({ message: "Unauthorized" })
     }
 
@@ -74,10 +88,37 @@ users.post("/login", async (req, res) => {
         sameSite: "strict",
         secure: true
     })
-    res.json({ status: "success" })
+    res.status(200).send()
 
 })
 
+
+/**
+ * POST /users/logout
+ */
+users.post("/logout", sessionMiddleware, async (req, res) => {
+    const userId = (req as any).userId
+
+    // Remove all sessions from user
+    await prisma.session.deleteMany({
+        where: {
+            userId: userId
+        }
+    })
+
+    res.cookie("sessionId", "", {
+        httpOnly: true,
+        expires: new Date(0),
+        sameSite: "strict",
+        secure: true
+    })
+    res.status(200).send()
+
+})
+
+/**
+ * POST /users/me
+ */
 users.get("/me", sessionMiddleware, async (req, res) => {
     const userId = (req as any).userId
 
@@ -86,12 +127,9 @@ users.get("/me", sessionMiddleware, async (req, res) => {
     })
 
     res.json({
-        status: "success",
-        data: {
-            user: {
-                userName: user!.userName,
-                isAdmin: user!.roles.includes("ADMIN")
-            }
+        user: {
+            userName: user!.userName,
+            isAdmin: user!.roles.includes("ADMIN")
         }
     })
 })

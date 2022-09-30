@@ -15,7 +15,6 @@ app.use("/api/users", users)
 app.use("/api/posts", posts)
 app.use("/api/messages", messages)
 
-
 app.listen(port, () => {
     console.log(`[*] Server listening on port ${port}`);
 });

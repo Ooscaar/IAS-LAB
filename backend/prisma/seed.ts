@@ -1,15 +1,18 @@
 import { PrismaClient } from '@prisma/client'
+import { hash } from 'bcrypt'
+import { SALT_ROUNDS } from '../src/const'
 const prisma = new PrismaClient({
     log: ["query", "info", "warn"],
 })
 
 async function main() {
+    const userPassword = await hash('123456', SALT_ROUNDS)
     const user = await prisma.user.upsert({
         where: { userName: 'jesus2000' },
         update: {},
         create: {
             userName: 'jesus2000',
-            password: '123456',
+            password: userPassword,
             roles: ["USER"],
             posts: {
                 create: {
@@ -30,12 +33,13 @@ async function main() {
         }
     })
 
+    const adminPassword = await hash('123456', SALT_ROUNDS)
     const admin = await prisma.user.upsert({
         where: { userName: "admin" },
         update: {},
         create: {
             userName: "admin",
-            password: "123456",
+            password: adminPassword,
             roles: ["ADMIN", "USER"],
         }
     })
