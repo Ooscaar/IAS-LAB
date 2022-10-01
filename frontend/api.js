@@ -7,7 +7,7 @@ export class Api {
       body: JSON.stringify({ username: username, password: password }),
     });
 
-    if (res.status === 200) window.updatePath("/");
+    if (res.status/100 === 2) window.updatePath("/");
     else alert(`Error ${res.status}`);
   }
 
@@ -18,7 +18,7 @@ export class Api {
       body: JSON.stringify({ username: username, password: password }),
     });
 
-    if (res.status === 200) this.logIn(username, password1);
+    if (res.status/100 === 2) this.logIn(username, password1);
     else alert(`Error ${res.status}`);
   }
 
@@ -28,7 +28,7 @@ export class Api {
       headers: {"Content-Type": "application/json"}
     })
     
-    if (res.status === 200) return (await res.json()).data.user;
+    if (res.status/100 === 2) return (await res.json()).user;
     else return false;
   }
 
@@ -37,7 +37,7 @@ export class Api {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });
-    if (res.status === 200) return true;
+    if (res.status/100 === 2) return true;
     else return false;
   }
 }

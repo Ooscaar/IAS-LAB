@@ -24,9 +24,13 @@ class Actions {
     }
 
     static async logoutButton() {
-        let res = await Api.logOut();
-        console.log(res);
-        return res;
+        try {
+            await Api.logOut();
+            updatePath('/login');
+            return true;
+        } catch {
+            return false;
+        }
     }
 }
 
