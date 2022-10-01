@@ -12,7 +12,7 @@ export async function sessionMiddleware(
     const sessionId = req.cookies["sessionId"]
 
     if (!sessionId) {
-        res.status(401).json({ status: "error", message: "Unauthorized: sessionId cookie not set up" })
+        return res.status(401).json({ status: "error", message: "Unauthorized: sessionId cookie not set up" })
     }
 
     // Find user with session cookie
