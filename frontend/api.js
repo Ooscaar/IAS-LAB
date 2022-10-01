@@ -1,4 +1,5 @@
 export class Api {
+<<<<<<< HEAD
   static async logIn(username, password) {
 
     let res = await fetch("/api/users/login", {
@@ -41,3 +42,33 @@ export class Api {
     else return false;
   }
 }
+=======
+
+    static logIn(username, password) {
+        fetch('/api/users/login', {
+            method: 'POST',
+            body: JSON.stringify({username: username, password: password})
+        })
+        .then(res => {
+            if(res.status === 200) window.updatePath('/');
+            else alert(`Error ${res.status}`);
+        })
+    }
+
+    static register(username, password1, password2) {
+        if(password1 !== password2) {
+            alert('Passwords must match');
+            return;
+        }
+
+        fetch('/api/users/register', {
+            method: 'POST',
+            body: JSON.stringify({username: username, password: password1})
+        }).then(res => {
+            if(res.status === 200) this.logIn(username, password1);
+            else alert(`Error ${res.status}`);
+        });
+    }
+
+}
+>>>>>>> b9bbd48dfcb0deda7598568781a5d14c3023320e
