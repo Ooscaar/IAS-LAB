@@ -71,6 +71,43 @@ Response:
 - **200 OK**: unset Cookie:sessionId
 - **401 Unauthorized**: you cannot log out
 
+### Get your user information
+```http
+GET /api/users/me
+```
+Body:
+```json
+{
+    username: "user1"
+    isAdmin: false
+}
+```
+
+Response:
+- **200 OK**
+- **401 Unauthorized**: you are not logged in
+
+### Get user information (DRAFT)
+```http
+GET /api/users?username=user1
+```
+
+Body:
+```json
+{
+    username: "user1"
+    groups: [
+        "group1",
+        "group2"
+    ]
+    isAdmin: false
+}
+```
+
+Response:
+- **200 OK**:
+- **401 Unauthorized**: you are not logged in
+
 ## Posts API
 
 ### Get a post
@@ -80,13 +117,15 @@ Returns the post information
 GET /api/posts/[postId]
 ```
 
-Response:
+Response (dates are ISO UTC):
 - **200 OK**
     ```json
     {
         "id": 0,
         "title": "Post title",
-        "owner": "postOwner"
+        "owner": "postOwner",
+        "creationDate": "2022-10-01T22:04:28Z",
+        "lastModificationDate": "2022-10-01T22:04:28Z"
     }
     ```
 - **401 Unauthorized**: you are not logged in
@@ -130,7 +169,7 @@ Examples:
     GET /api/posts?page=1
     ```
 
-Response: 
+Response (dates are ISO UTC): 
 - **200 OK**
     ```json
     {
@@ -139,11 +178,15 @@ Response:
                 "id": 2,
                 "title": "Example post 1",
                 "owner": "user1"
+                "creationDate": "2022-10-01T22:04:28Z",
+                "lastModificationDate": "2022-10-01T22:04:28Z"
             },
             {
                 "id": 1,
                 "title": "Example post 2",
                 "owner": "user2"
+                "creationDate": "2022-10-01T22:04:28Z",
+                "lastModificationDate": "2022-10-01T22:04:28Z"
             }
         ]
     }
@@ -158,7 +201,7 @@ Response:
 GET /api/messages/[postId]
 ```
 
-Response:
+Response (dates are ISO UTC):
 - **200 OK**
     ```json
     {
@@ -167,11 +210,15 @@ Response:
                     "id": 0,
                     "owner": "postOwner",
                     "message": "The first message is always created by the postOwner"
+                    "creationDate": "2022-10-01T22:04:28Z",
+                    "lastModificationDate": "2022-10-01T22:04:28Z"
                 },
                 {
                     "id": 1,
                     "owner": "user1",
                     "message": "Hello, this is the first comment!"
+                    "creationDate": "2022-10-01T22:04:28Z",
+                    "lastModificationDate": "2022-10-01T22:04:28Z"
                 }
             ]
     }
