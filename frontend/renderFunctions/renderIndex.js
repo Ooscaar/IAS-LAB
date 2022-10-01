@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Api } from "../api.js";
 
 export async function renderIndex() {
@@ -14,9 +13,4 @@ export async function renderIndex() {
     for(let i = 0; i < interfaceUsernames.length; i++) {
         interfaceUsernames[i].innerHTML = userInfo.userName;
     }
-=======
-export function renderIndex() {
-    let page = document.getElementById('/');
-    page.style.display = 'block';
->>>>>>> b9bbd48dfcb0deda7598568781a5d14c3023320e
 }

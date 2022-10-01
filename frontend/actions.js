@@ -25,6 +25,7 @@ class Actions {
 
     static async logoutButton() {
         let res = await Api.logOut();
+        console.log(res);
         return res;
     }
 }
