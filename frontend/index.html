@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script type="module" src="index.js"></script>
+    <script type="module" src="actions.js"></script>
     <title>Forum</title>
 </head>
 <body>
@@ -14,8 +15,8 @@
         <div class="top-bar">
             <h3>Forum</h3>
             <div class="top-bar-info">
-                <p class="top-bar-info-username">User</p>
-                <button onclick="updatePath('/login')">Log out</button>
+                <p class="username" class="top-bar-info-username">----</p>
+                <button onclick="Actions.logoutButton()">Log out</button>
             </div>
         </div>
         <div id="board">
@@ -28,7 +29,7 @@
 
     <div class="page" id="/register">
         <div class="user-form">
-            <form id="register-form">
+            <form id="register-form" onsubmit="Actions.registerForm(event)">
                 <h3>Sign Up</h3>
         
                 <label for="username">Username</label>
@@ -48,7 +49,7 @@
 
     <div class="page" id="/login">
         <div class="user-form">
-            <form id="login-form">
+            <form id="login-form" onsubmit="Actions.loginForm(event)">
                 <h3>Login</h3>
         
                 <label for="username">Username</label>
@@ -61,6 +62,10 @@
             </form>
             <p> New user? <button onclick="updatePath('/register')">Create an account</button>.</p>
         </div>
+    </div>
+
+    <div class="page" id="/posts">
+        Posts
     </div>
 
     <div class="page" id="/notfound">
