@@ -78,8 +78,8 @@ GET /api/users/me
 Body:
 ```json
 {
-    username: "user1"
-    isAdmin: false
+    "username": "user1"
+    "isAdmin": false
 }
 ```
 
@@ -95,12 +95,12 @@ GET /api/users?username=user1
 Body:
 ```json
 {
-    username: "user1"
-    groups: [
+    "username": "user1"
+    "groups": [
         "group1",
         "group2"
     ]
-    isAdmin: false
+    "isAdmin": false
 }
 ```
 
