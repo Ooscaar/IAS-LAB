@@ -13,7 +13,6 @@
 - updated_at
 - title
 - author_id
-- content
 
 ## Messages table
 
