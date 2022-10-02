@@ -134,9 +134,9 @@ Response (dates are ISO UTC):
 - **422 Unprocessable Entity***: validation failed
 
 
-## Creating a post
+### Creating a post
 ```
-POST /api/post
+POST /api/posts
 ```
 
 Body:
@@ -148,7 +148,12 @@ Body:
 ```
 
 Responses:
-- **200 OK**
+- **200 OK**: Returns the post id
+```json
+{
+    "id": 2
+}
+```
 - **401 Unauthorized**: You are not logged in
 - **422 Unprocessable Entity***: validation failed
 
