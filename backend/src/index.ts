@@ -1,7 +1,7 @@
 
-import express from "express"
-import morgan from "morgan"
-import cookieParser from "cookie-parser"
+import cookieParser from "cookie-parser";
+import express from "express";
+import morgan from "morgan";
 import { messages, posts, users } from "./api";
 
 const app = express();

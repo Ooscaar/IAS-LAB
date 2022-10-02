@@ -1,3 +1,4 @@
+import { Session } from "@prisma/client";
 import express from "express";
 import { prisma } from "../client";
 
@@ -15,26 +16,32 @@ export async function sessionMiddleware(
         return res.status(401).json({ status: "error", message: "Unauthorized: sessionId cookie not set up" })
     }
 
-    // Find user with session cookie
-    const session = await prisma.session.findUnique({
-        where: { id: sessionId }
-    })
-
-    if (!session) {
-        return res.status(401).json({ status: "error", message: "Unauthorized: sessionId not found" })
-    }
-
-    const now = new Date()
-    const expires = new Date(session.expires)
-
-    if (now > expires) {
-        await prisma.session.delete({
+    try {
+        // Find user with session cookie
+        const session = await prisma.session.findUnique({
             where: { id: sessionId }
         })
-        return res.status(401).json({ status: "error", message: "Unauthorized: sessionId expired" })
+
+        if (!session) {
+            return res.status(401).json({ message: "Unauthorized: sessionId not found" })
+        }
+
+        const now = new Date()
+        const expires = new Date(session.expires)
+
+        if (now > expires) {
+            await prisma.session.delete({
+                where: { id: sessionId }
+            })
+            return res.status(401).json({ message: "Unauthorized: sessionId expired" })
+        }
+
+        // Add userId to global request object
+        (req as any).userId = session.userId
+
+        next()
+    } catch (error) {
+        next(error)
     }
 
-    (req as any).userId = session.userId
-
-    next()
 }
