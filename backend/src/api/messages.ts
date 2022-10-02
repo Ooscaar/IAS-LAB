@@ -30,7 +30,7 @@ messages.get("/:postId", async (req, res, next) => {
         return res.status(200).json({
             messages: post.messages.map(message => ({
                 id: message.id,
-                owner: message.author.userName,
+                owner: message.author.username,
                 content: message.content
             }))
         })

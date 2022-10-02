@@ -71,7 +71,7 @@ posts.get("/:postId", sessionMiddleware, async (req, res, next) => {
             post: {
                 id: post.id,
                 title: post.title,
-                owner: post.author.userName
+                owner: post.author.username
             }
         })
     } catch (error) {
@@ -100,7 +100,7 @@ posts.get("/", sessionMiddleware, async (req, res, next) => {
             posts: posts.map(post => ({
                 id: post.id,
                 title: post.title,
-                owner: post.author.userName
+                owner: post.author.username
             }))
         })
     } catch (error) {

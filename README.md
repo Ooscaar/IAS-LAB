@@ -2,7 +2,7 @@
 
 ## Users table
 - id
-- userName
+- username
 - password
 - roles [] 
 
@@ -41,7 +41,7 @@ Body:
 ```
 Response:
 - **201 Created**: user was created
-- **409 Conflict**: userName used 
+- **409 Conflict**: username used 
 - **422 Unprocessable Entity**: user was not created due to validation failures (response body contains the error messages)
 
 ### Log in

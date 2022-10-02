@@ -8,10 +8,10 @@ const prisma = new PrismaClient({
 async function main() {
     const userPassword = await hash('123456', SALT_ROUNDS)
     const user = await prisma.user.upsert({
-        where: { userName: 'jesus2000' },
+        where: { username: 'jesus2000' },
         update: {},
         create: {
-            userName: 'jesus2000',
+            username: 'jesus2000',
             password: userPassword,
             roles: ["USER"],
             posts: {
@@ -21,7 +21,7 @@ async function main() {
                     messages: {
                         create: {
                             content: 'This is a message',
-                            author: { connect: { userName: 'jesus2000' } }
+                            author: { connect: { username: 'jesus2000' } }
                         }
                     }
 
@@ -35,10 +35,10 @@ async function main() {
 
     const adminPassword = await hash('123456', SALT_ROUNDS)
     const admin = await prisma.user.upsert({
-        where: { userName: "admin" },
+        where: { username: "admin" },
         update: {},
         create: {
-            userName: "admin",
+            username: "admin",
             password: adminPassword,
             roles: ["ADMIN", "USER"],
         }

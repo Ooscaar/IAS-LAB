@@ -23,7 +23,7 @@ users.post("/register", async (req, res, next) => {
         const hashedPassword = await hash(password, SALT_ROUNDS);
         await prisma.user.create({
             data: {
-                userName: username,
+                username: username,
                 password: hashedPassword,
                 roles: "USER"
             }
@@ -58,7 +58,7 @@ users.post("/login", async (req, res, next) => {
     try {
         // Find user with username  
         const user = await prisma.user.findUnique({
-            where: { userName: username }
+            where: { username: username }
         })
 
         if (!user) {
@@ -133,7 +133,7 @@ users.get("/me", sessionMiddleware, async (req, res, next) => {
 
         return res.status(200).json({
             user: {
-                userName: user!.userName,
+                username: user!.username,
                 isAdmin: user!.roles.includes("ADMIN")
             }
         })
