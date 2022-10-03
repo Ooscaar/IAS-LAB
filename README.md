@@ -175,7 +175,7 @@ Examples:
     ```
 
 Response (dates are ISO UTC): 
-- **200 OK**
+- **200 OK** (lastMessageDate is only updated when a new message is added to the post, messages modifications do not update it)
     ```json
     {
         "posts": [
@@ -184,7 +184,7 @@ Response (dates are ISO UTC):
                 "title": "Example post 1",
                 "owner": "user1"
                 "creationDate": "2022-10-01T22:04:28Z",
-                "lastModificationDate": "2022-10-01T22:04:28Z"
+                "lastMessageDate": "2022-10-01T22:04:28Z"
             },
             {
                 "id": 1,
@@ -251,4 +251,5 @@ Responses:
 - **404 Not found**: post not found
 - **422 Unprocessable Entity***: validation failed
 
+## Groups API (Draft)
 
