@@ -87,27 +87,6 @@ Response:
 - **200 OK**
 - **401 Unauthorized**: you are not logged in
 
-### Get user information (DRAFT)
-```http
-GET /api/users?username=user1
-```
-
-Body:
-```json
-{
-    "username": "user1"
-    "groups": [
-        "group1",
-        "group2"
-    ]
-    "isAdmin": false
-}
-```
-
-Response:
-- **200 OK**:
-- **401 Unauthorized**: you are not logged in
-
 ## Posts API
 
 ### Get a post
@@ -124,12 +103,11 @@ Response (dates are ISO UTC):
         "id": 0,
         "title": "Post title",
         "owner": "postOwner",
+        "isPrivate": true,
         "creationDate": "2022-10-01T22:04:28Z",
         "lastModificationDate": "2022-10-01T22:04:28Z"
     }
     ```
-- **401 Unauthorized**: you are not logged in
-- **403 Forbidden**: you are logged in but you have no access to the post
 - **404 Not found**: post not found
 - **422 Unprocessable Entity***: validation failed
 
@@ -143,6 +121,7 @@ Body:
 ```
 {
     "title": "Hello world",
+    "isPrivate": true,
     "message": "This is the first message inside the post"
 }
 ```
@@ -182,21 +161,22 @@ Response (dates are ISO UTC):
             {
                 "id": 2,
                 "title": "Example post 1",
-                "owner": "user1"
+                "owner": "user1",
+                "isPrivate": true,
                 "creationDate": "2022-10-01T22:04:28Z",
                 "lastMessageDate": "2022-10-01T22:04:28Z"
             },
             {
                 "id": 1,
                 "title": "Example post 2",
-                "owner": "user2"
+                "owner": "user2",
+                "isPrivate": false,
                 "creationDate": "2022-10-01T22:04:28Z",
                 "lastModificationDate": "2022-10-01T22:04:28Z"
             }
         ]
     }
     ```
-- **401 Unauthorized**: You are not logged in
 
 ## Messages API
 
@@ -228,8 +208,7 @@ Response (dates are ISO UTC):
             ]
     }
     ```
-- **401 Unauthorized**: You are not logged in
-- **403 Forbidden**: You are logged in but you have no access to the post messages
+- **401 Unauthorized**: You are not logged in and the post is private
 - **404 Not found**: message not found
 
 ### Post a message
@@ -247,9 +226,6 @@ Body:
 Responses:
 - **200 OK**
 - **401 Unauthorized**: You are not logged in
-- **403 Forbidden**: You are logged in but you have no access to the post messages
 - **404 Not found**: post not found
 - **422 Unprocessable Entity***: validation failed
-
-## Groups API (Draft)
 
