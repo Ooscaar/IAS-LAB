@@ -13,7 +13,7 @@
 - updated_at
 - title
 - author_id
-- is_private
+- private
 
 ## Messages table
 
