@@ -144,13 +144,13 @@ GET /api/posts?page=[pageNumber]
 ```
 
 Examples:
-- Return the first page (newest) posts:
+- Return the first page (newest) posts (starts with 1):
     ```
-    GET /api/posts?page=0
+    GET /api/posts?page=1
     ```
 - Return the second page posts:
     ```
-    GET /api/posts?page=1
+    GET /api/posts?page=0
     ```
 
 Response (dates are ISO UTC): 
