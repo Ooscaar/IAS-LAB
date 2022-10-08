@@ -33,6 +33,22 @@ async function main() {
         }
     })
 
+    // Private post
+    const privatePost = await prisma.post.create({
+        data: {
+            title: 'Private post',
+            content: 'This is a private post',
+            private: true,
+            authorId: user.id,
+            messages: {
+                create: {
+                    content: 'This is a message',
+                    authorId: user.id
+                }
+            }
+        }
+    })
+
     const adminPassword = await hash('123456', SALT_ROUNDS)
     const admin = await prisma.user.upsert({
         where: { username: "admin" },

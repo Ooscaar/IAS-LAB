@@ -37,6 +37,7 @@ model Post {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   title     String
+  private   Boolean   @default(false)
   content   String?
   authorId  Int       @map("author_id")
   author    User      @relation(fields: [authorId], references: [id])
