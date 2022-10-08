@@ -1,46 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script type="module" src="index.js"></script>
-    <script type="module" src="actions.js"></script>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/loader.css">
+    <script type="module" src="/index.js"></script>
+    <script type="module" src="/actions.js"></script>
     <title>Forum</title>
 </head>
-<body>
 
-    <div class="page" id="/">
-        <div class="top-bar">
-            <h3>Forum</h3>
-            <div class="top-bar-info">
-                <p class="username" class="top-bar-info-username">----</p>
-                <button onclick="Actions.logoutButton()">Log out</button>
-            </div>
-        </div>
-        <div id="board">
-            <div class="board-post">
-                <p class="board-post-title" onclick="updatePath('/posts/0')">This is a test</p>
-                <p class="board-post-owner">User</p>
-            </div>
-        </div>
-    </div>
+<body>
+    <div class="loader" id="loader"></div>
 
     <div class="page" id="/register">
         <div class="user-form">
             <form id="register-form" onsubmit="Actions.registerForm(event)">
                 <h3>Sign Up</h3>
-        
+
                 <label for="username">Username</label>
                 <input type="text" placeholder="Username" name="username">
-        
+
                 <label for="password1">Password</label>
                 <input type="password" placeholder="Password" name="password1">
-    
+
                 <label for="password2">Password Again</label>
                 <input type="password" placeholder="Password" name="password2">
-        
+
                 <button>Register</button>
             </form>
             <p> Already have an account? <button onclick="updatePath('/login')">Log in</button>.</p>
@@ -51,26 +39,73 @@
         <div class="user-form">
             <form id="login-form" onsubmit="Actions.loginForm(event)">
                 <h3>Login</h3>
-        
+
                 <label for="username">Username</label>
                 <input type="text" placeholder="Username" name="username">
-        
+
                 <label for="password">Password</label>
                 <input type="password" placeholder="Password" name="password">
-        
+
                 <button>Log In</button>
             </form>
             <p> New user? <button onclick="updatePath('/register')">Create an account</button>.</p>
         </div>
     </div>
 
+    <div id="top-bar">
+        <h3>Forum</h3>
+        <div id="top-bar-open" onclick="Actions.openMenu()">
+            <img src="/icons/menu.svg" alt="Menu" />
+        </div>
+    </div>
+
+    <div id="menu">
+        <div id="menu-top-bar">
+            <h3>Forum</h3>
+            <div id="menu-top-bar-close" onclick="Actions.closeMenu()">
+                <img src="/icons/close.svg" alt="Menu" />
+            </div>
+        </div>
+        <button id="menu-logout" class="state-logged" onclick="Actions.logoutButton()">LOG OUT</button>
+        <button id="menu-login" class="state-not_logged" onclick="updatePath('/login')">LOG IN</button>
+        <button id="menu-register" class="state-not_logged" onclick="updatePath('/register')">REGISTER</button>
+    </div>
+
+    <div class="page" id="/">
+        <div id="board">
+            <div class="board-top">
+                <button onclick="updatePath('/new-post')">New post</button>
+            </div>
+            <div class="board-post">
+                <p class="board-post-title" onclick="updatePath('/posts/1')">This is a test</p>
+                <p class="board-post-owner">User</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" id="/new-post">
+        <div>
+            <form id="new-post-form" onsubmit="Actions.newPostForm(event)">
+                <h3>New post</h3>
+
+                <label for="title">Title</label>
+                <input type="text" placeholder="Title" name="title">
+
+                <label for="message">Message</label>
+                <textarea type="textarea" placeholder="Message" name="message"></textarea>
+
+                <button>Create</button>
+            </form>
+        </div>
+    </div>
+
     <div class="page" id="/posts">
-        Posts
+        <div id="post-container"></div>
     </div>
 
     <div class="page" id="/notfound">
         404 Not Found
     </div>
-
 </body>
+
 </html>
