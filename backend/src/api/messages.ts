@@ -1,17 +1,19 @@
 import express from "express";
+import Joi from "joi";
 import { prisma } from "../client";
+import { sessionMiddleware } from "../middlewares/session.middleware";
 
 export const messages = express.Router();
 
 /**
  * GET /api/messages/:postId
  */
-messages.get("/:postId", async (req, res, next) => {
+messages.get("/:postId", sessionMiddleware, async (req, res, next) => {
     const { postId } = req.params
 
     const postIdAsNumber = Number(postId)
 
-    if (postIdAsNumber === NaN) {
+    if (Number.isNaN(postIdAsNumber)) {
         return res.status(422).json({ message: "Invalid post id" })
     }
 
@@ -19,19 +21,31 @@ messages.get("/:postId", async (req, res, next) => {
         const post = await prisma.post.findUnique({
             where: { id: postIdAsNumber },
             include: {
-                messages: { include: { author: true } }
-            }
+                messages: {
+                    include: { author: true },
+                    orderBy: { createdAt: "asc" }
+                }
+            },
         })
 
         if (!post) {
             return res.status(404).json({ message: "Post not found" })
         }
 
+        const userId = (req as any).userId
+
+        // Private posts can only be accessed by the authenticated users
+        if (!userId && post.private) {
+            return res.status(401).json({ message: "Unauthorized: post is private" })
+        }
+
         return res.status(200).json({
             messages: post.messages.map(message => ({
                 id: message.id,
                 owner: message.author.username,
-                content: message.content
+                content: message.content,
+                creationDate: message.createdAt,
+                lastModificationDate: message.updatedAt
             }))
         })
     } catch (error) {
@@ -43,22 +57,30 @@ messages.get("/:postId", async (req, res, next) => {
 /**
  * POST /api/messages/:postId
  */
-messages.post("/:postId", async (req, res, next) => {
+messages.post("/:postId", sessionMiddleware, async (req, res, next) => {
     const userId = (req as any).userId
 
     const { postId } = req.params
 
     const postIdAsNumber = Number(postId)
 
-    if (postIdAsNumber === NaN) {
+    if (Number.isNaN(postIdAsNumber)) {
         return res.status(422).json({ message: "Invalid post id" })
     }
 
-    const { message } = req.body as { message: string };
+    const schema = Joi.object<{
+        message: string;
+    }>({
+        message: Joi.string().required(),
+    });
 
-    if (!message) {
-        return res.status(422).json({ message: "Missing message" });
+    const { error, value } = schema.validate(req.body);
+
+    if (error) {
+        return res.status(422).json({ message: `Validation failed: ${error.message}` });
     }
+
+    const { message } = value
 
     try {
         const post = await prisma.post.findUnique({
@@ -69,11 +91,21 @@ messages.post("/:postId", async (req, res, next) => {
             return res.status(404).json({ message: "Post not found" })
         }
 
-        await prisma.message.create({
+        const messageCreated = await prisma.message.create({
             data: {
                 content: message,
                 authorId: userId,
                 postId: postIdAsNumber
+            }
+        })
+
+        // Update post lastModificationDate also
+        await prisma.post.update({
+            where: {
+                id: postIdAsNumber
+            },
+            data: {
+                updatedAt: messageCreated.updatedAt
             }
         })
 

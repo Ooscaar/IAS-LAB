@@ -2,6 +2,7 @@ import { Prisma } from "@prisma/client";
 import { compare, hash } from "bcrypt";
 import { randomBytes } from "crypto";
 import express from "express";
+import Joi from "joi";
 import { prisma } from "../client";
 import { SALT_ROUNDS } from "../const";
 import { sessionMiddleware } from "../middlewares/session.middleware";
@@ -12,11 +13,18 @@ export const users = express.Router();
  * POST /users/register
  */
 users.post("/register", async (req, res, next) => {
-    const { username, password } = req.body as { username: string, password: string };
+    const schema = Joi.object({
+        username: Joi.string().required(),
+        password: Joi.string().required(),
+    });
 
-    if (!username || !password) {
-        return res.status(422).json({ message: "Missing username or password" });
+    const { error, value } = schema.validate(req.body);
+
+    if (error) {
+        return res.status(422).json({ message: `Validation failed: ${error.message}` });
     }
+
+    const { username, password } = value as { username: string; password: string };
 
     // Create new user
     try {
@@ -48,12 +56,22 @@ users.post("/register", async (req, res, next) => {
  * POST /users/login
  */
 users.post("/login", async (req, res, next) => {
-    console.log(JSON.stringify(req.body))
-    const { username, password } = req.body as { username: string, password: string };
 
-    if (!username || !password) {
-        return res.status(422).json({ message: "Missing username or password" });
+    const schema = Joi.object<{
+        username: string;
+        password: string;
+    }>({
+        username: Joi.string().required(),
+        password: Joi.string().required(),
+    });
+
+    const { error, value } = schema.validate(req.body);
+
+    if (error) {
+        return res.status(422).json({ message: `Validation failed: ${error.message}` });
     }
+
+    const { username, password } = value
 
     try {
         // Find user with username  

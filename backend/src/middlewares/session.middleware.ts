@@ -1,4 +1,3 @@
-import { Session } from "@prisma/client";
 import express from "express";
 import { prisma } from "../client";
 
@@ -13,7 +12,12 @@ export async function sessionMiddleware(
     const sessionId = req.cookies["sessionId"]
 
     if (!sessionId) {
-        return res.status(401).json({ status: "error", message: "Unauthorized: sessionId cookie not set up" })
+
+        // /api/post is public. Can be used without a session and with a session
+        if (req.baseUrl === "/api/messages" && req.method === "GET") {
+            return next()
+        }
+        return res.status(401).json({ message: "Unauthorized: sessionId cookie not set up" })
     }
 
     try {

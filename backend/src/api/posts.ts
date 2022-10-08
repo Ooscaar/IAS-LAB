@@ -1,5 +1,6 @@
 
 import express from "express";
+import Joi from "joi";
 import { prisma } from "../client";
 import { sessionMiddleware } from "../middlewares/session.middleware";
 
@@ -11,11 +12,23 @@ export const posts = express.Router();
 posts.post("/", sessionMiddleware, async (req, res, next) => {
     const userId = (req as any).userId
 
-    const { title, message } = req.body as { title: string, message: string };
+    const schema = Joi.object<{
+        title: string;
+        message: string;
+        isPrivate: boolean
+    }>({
+        title: Joi.string().required(),
+        message: Joi.string().required(),
+        isPrivate: Joi.boolean().required()
+    });
 
-    if (!title || !message) {
-        return res.status(422).json({ message: "Missing title or message" });
+    const { error, value } = schema.validate(req.body);
+
+    if (error) {
+        return res.status(422).json({ message: `Validation failed: ${error.message}` });
     }
+
+    const { title, message, isPrivate } = value
 
     try {
         // Do not restric the title while creating a post
@@ -28,16 +41,14 @@ posts.post("/", sessionMiddleware, async (req, res, next) => {
                         content: message,
                         authorId: userId
                     }
-                }
+                },
+                private: isPrivate
             },
             include: { messages: true }
         })
 
         return res.status(200).json({
-            post: {
-                title: post.title,
-                message: post.messages[0].content
-            }
+            id: post.id,
         })
     } catch (error) {
         next(error)
@@ -53,11 +64,12 @@ posts.get("/:postId", sessionMiddleware, async (req, res, next) => {
 
     const postIdAsNumber = Number(postId)
 
-    if (postIdAsNumber === NaN) {
+    if (Number.isNaN(postIdAsNumber)) {
         return res.status(422).json({ message: "Invalid post id" })
     }
 
     try {
+        console.log(`Getting post with id ${postIdAsNumber}`)
         const post = await prisma.post.findUnique({
             where: { id: postIdAsNumber },
             include: { author: true }
@@ -71,7 +83,10 @@ posts.get("/:postId", sessionMiddleware, async (req, res, next) => {
             post: {
                 id: post.id,
                 title: post.title,
-                owner: post.author.username
+                owner: post.author.username,
+                isPrivate: post.private,
+                creationDate: post.createdAt,
+                lastModificationDate: post.updatedAt
             }
         })
     } catch (error) {
@@ -82,13 +97,23 @@ posts.get("/:postId", sessionMiddleware, async (req, res, next) => {
 /**
  * GET /posts?page=2
  */
-posts.get("/", sessionMiddleware, async (req, res, next) => {
+posts.get("/", async (req, res, next) => {
     const limit = 10
     const { page = 1 } = req.query
 
+    const schema = Joi.object({
+        page: Joi.number().integer().min(1).required()
+    })
+
+    const { error, value } = schema.validate({ page: Number(page) })
+
+    if (error) {
+        return res.status(422).json({ message: `Validation failed: ${error.message}` })
+    }
+
     try {
         const posts = await prisma.post.findMany({
-            skip: (Number(page) - 1) * Number(limit),
+            skip: (Number(value.page) - 1) * Number(limit),
             take: Number(limit),
             orderBy: { updatedAt: "desc" },
             include: {
@@ -100,7 +125,10 @@ posts.get("/", sessionMiddleware, async (req, res, next) => {
             posts: posts.map(post => ({
                 id: post.id,
                 title: post.title,
-                owner: post.author.username
+                owner: post.author.username,
+                isPrivate: post.private,
+                creationDate: post.createdAt,
+                lastModificationDate: post.updatedAt
             }))
         })
     } catch (error) {
