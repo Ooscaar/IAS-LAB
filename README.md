@@ -13,11 +13,12 @@
 - updated_at
 - title
 - author_id
+- is_private
 
 ## Messages table
 
 - id
-- created_at 
+- created_at
 - updated_at
 - content
 - author_id
