@@ -6,11 +6,13 @@ export async function renderIndex() {
     page.style.display = 'block';
 
     // If the user is not logged in go to /login
-    let userInfo = await Api.logged();
-    if(userInfo === false) return window.updatePath('/login');
+    //let userInfo = await Api.logged();
+    //if (userInfo === false) return window.updatePath('/login');
 
     let interfaceUsernames = document.getElementsByClassName('username');
-    for(let i = 0; i < interfaceUsernames.length; i++) {
-        interfaceUsernames[i].innerHTML = userInfo.userName;
+    for (let i = 0; i < interfaceUsernames.length; i++) {
+        interfaceUsernames[i].innerHTML = userInfo.username;
     }
+
+    let posts = Api.getPagePosts(1);
 }
