@@ -19,7 +19,7 @@ export class Api {
       body: JSON.stringify({ username: username, password: password })
     });
 
-    if (res.status === 201) this.logIn(username, password1);
+    if (res.status === 201) this.logIn(username, password);
     else if (res.status === 409) alert('Error: Username already used');
     else alert(`Error ${res.status}`);
   }
@@ -43,11 +43,11 @@ export class Api {
     else return false;
   }
 
-  static async newPost(title, message) {
+  static async newPost(title, message, isPrivate) {
     let res = await fetch("/api/posts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: title, message: message })
+      body: JSON.stringify({ title: title, message: message, isPrivate: isPrivate })
     });
 
     if (res.status === 200) return true;
@@ -70,7 +70,7 @@ export class Api {
       headers: { "Content-Type": "application/json" }
     });
 
-    if (res.status === 200) return await (res.json()).posts;
+    if (res.status === 200) return (await res.json()).posts;
     else alert(res.status);
   }
 
@@ -82,5 +82,16 @@ export class Api {
 
     if (res.status === 200) return (await res.json()).messages;
     else alert(res.status);
+  }
+
+  static async newMessage(message, postId) {
+    let res = await fetch(`/api/messages/${postId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: message })
+    });
+
+    if (res.status === 200) return true;
+    else return false;
   }
 }

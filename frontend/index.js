@@ -41,14 +41,12 @@ function updatePath(newPath) {
 window.updatePath = updatePath; // So you can use it in the html
 
 function showLoader() {
-  hiddeAllPages();
   document.getElementById('loader').style.display = "inline-block";
 }
 window.showLoader = showLoader;
 
 function hiddeLoader() {
   document.getElementById('loader').style.display = "none";
-  render(location.pathname);
 }
 window.hiddeLoader = hiddeLoader;
 

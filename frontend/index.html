@@ -4,16 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/loader.css">
-    <script type="module" src="/index.js"></script>
-    <script type="module" src="/actions.js"></script>
     <title>Forum</title>
 </head>
 
 <body>
     <div class="loader" id="loader"></div>
+
+    <div class="header">
+        <h1 onclick="updatePath('/')">Forum</h1>
+        <div>
+            <button class="button-login not-logged" onclick="updatePath('/login')">Log In</button>
+            <button class="button-register not-logged" onclick="updatePath('/register')">Register</button>
+            <p class="username logged"></p>
+            <button class="button-register logged" onclick="Actions.logoutButton()">Log Out</button>
+        </div>
+    </div>
 
     <div class="page" id="/register">
         <div class="user-form">
@@ -52,33 +60,17 @@
         </div>
     </div>
 
-    <div id="top-bar">
-        <h3>Forum</h3>
-        <div id="top-bar-open" onclick="Actions.openMenu()">
-            <img src="/icons/menu.svg" alt="Menu" />
-        </div>
-    </div>
-
-    <div id="menu">
-        <div id="menu-top-bar">
-            <h3>Forum</h3>
-            <div id="menu-top-bar-close" onclick="Actions.closeMenu()">
-                <img src="/icons/close.svg" alt="Menu" />
-            </div>
-        </div>
-        <button id="menu-logout" class="state-logged" onclick="Actions.logoutButton()">LOG OUT</button>
-        <button id="menu-login" class="state-not_logged" onclick="updatePath('/login')">LOG IN</button>
-        <button id="menu-register" class="state-not_logged" onclick="updatePath('/register')">REGISTER</button>
-    </div>
-
     <div class="page" id="/">
         <div id="board">
-            <div class="board-top">
-                <button onclick="updatePath('/new-post')">New post</button>
+            <div class="board-top logged">
+                <button onclick="updatePath('/new-post')">
+                    <img src="/icons/edit.svg" alt="Create post" />
+                    <p>New post</p>
+                </button>
             </div>
             <div class="board-post">
-                <p class="board-post-title" onclick="updatePath('/posts/1')">This is a test</p>
-                <p class="board-post-owner">User</p>
+                <h1 onclick="updatePath('/posts/1')">This is a test</h1>
+                <p>User</p>
             </div>
         </div>
     </div>
@@ -94,6 +86,9 @@
                 <label for="message">Message</label>
                 <textarea type="textarea" placeholder="Message" name="message"></textarea>
 
+                <label for="private">Private</label>
+                <input type="checkbox" placeholder="private" name="private">
+
                 <button>Create</button>
             </form>
         </div>
@@ -101,11 +96,22 @@
 
     <div class="page" id="/posts">
         <div id="post-container"></div>
+        <div id="new-message" class="logged">
+            <form id="new-message-form" onsubmit="Actions.newMessageForm(event)">
+                <label for="message">New message</label>
+                <textarea type="textarea" placeholder="Message" name="message"></textarea>
+
+                <button>Send</button>
+            </form>
+        </div>
     </div>
 
     <div class="page" id="/notfound">
         404 Not Found
     </div>
+
+    <script type="module" src="/index.js"></script>
+    <script type="module" src="/actions.js"></script>
 </body>
 
 </html>
