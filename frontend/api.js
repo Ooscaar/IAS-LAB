@@ -19,7 +19,7 @@ export class Api {
       body: JSON.stringify({ username: username, password: password })
     });
 
-    if (res.status === 201) this.logIn(username, password);
+    if (res.status === 201) return true;
     else if (res.status === 409) alert('Error: Username already used');
     else alert(`Error ${res.status}`);
   }
