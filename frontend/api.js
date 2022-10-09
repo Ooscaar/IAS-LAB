@@ -81,7 +81,7 @@ export class Api {
     });
 
     if (res.status === 200) return (await res.json()).messages;
-    else alert(res.status);
+    else return false;
   }
 
   static async newMessage(message, postId) {

@@ -10,34 +10,40 @@ export async function renderPost() {
     // Update user state
     updateUserState();
 
-    let postId = window.location.pathname.split('/')[2];
-    let post = await Api.getPost(postId);
-    let messages = await Api.getPostMessages(postId);
-
     let postContainer = document.getElementById('post-container');
     // Remove all data
     postContainer.innerHTML = ""
+
+    let postId = window.location.pathname.split('/')[2];
+    let post = await Api.getPost(postId);
+    let messages = await Api.getPostMessages(postId);
 
     let interfaceTitle = document.createElement('h1');
     interfaceTitle.innerHTML = post.title;
     postContainer.appendChild(interfaceTitle);
 
-    Array.from(messages).forEach(message => {
-        let interfaceMessage = document.createElement("div");
-        interfaceMessage.classList.add("post-message");
+    if (!messages) {
+        let errorHTML = document.createElement('p');
+        errorHTML.innerHTML = "You do not have access to this post."
+        postContainer.appendChild(errorHTML);
+    } else {
+        Array.from(messages).forEach(message => {
+            let interfaceMessage = document.createElement("div");
+            interfaceMessage.classList.add("post-message");
 
-        let interfaceMessageInfo = document.createElement("p");
-        let date = new Date(message.lastModificationDate);
-        interfaceMessageInfo.innerHTML = dateAndOwnerInfo(date, message.owner);
+            let interfaceMessageInfo = document.createElement("p");
+            let date = new Date(message.lastModificationDate);
+            interfaceMessageInfo.innerHTML = dateAndOwnerInfo(date, message.owner);
 
-        let interfaceMessageText = document.createElement("p");
-        interfaceMessageText.innerHTML = message.content;
+            let interfaceMessageText = document.createElement("p");
+            interfaceMessageText.innerHTML = message.content;
 
-        interfaceMessage.appendChild(interfaceMessageInfo);
-        interfaceMessage.appendChild(interfaceMessageText);
+            interfaceMessage.appendChild(interfaceMessageInfo);
+            interfaceMessage.appendChild(interfaceMessageText);
 
-        postContainer.appendChild(interfaceMessage);
-    })
+            postContainer.appendChild(interfaceMessage);
+        })
+    }
 
     // Show the page
     window.hiddeLoader();
