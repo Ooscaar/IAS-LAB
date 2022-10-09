@@ -19,7 +19,7 @@ export class Api {
       body: JSON.stringify({ username: username, password: password })
     });
 
-    if (res.status === 201) this.logIn(username, password);
+    if (res.status === 201) return true;
     else if (res.status === 409) alert('Error: Username already used');
     else alert(`Error ${res.status}`);
   }
@@ -81,7 +81,7 @@ export class Api {
     });
 
     if (res.status === 200) return (await res.json()).messages;
-    else alert(res.status);
+    else return false;
   }
 
   static async newMessage(message, postId) {

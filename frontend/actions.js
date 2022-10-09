@@ -34,8 +34,14 @@ class Actions {
         if (password1 != password2) alert("Passwords must match");
         else {
             showLoader();
-            await Api.register(username, password1);
+            let res = await Api.register(username, password1);
             hiddeLoader();
+            if (res) {
+                showLoader();
+                let res2 = await Api.logIn(username, password1);
+                hiddeLoader();
+                if (res2) window.updatePath("/");
+            }
         }
     }
 

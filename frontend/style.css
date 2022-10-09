@@ -309,6 +309,9 @@ h3 {
 }
 
 #new-message {
+    width: 800px;
+    max-width: 100%;
+    margin: auto;
     padding: 14px;
 }
 
