@@ -13,7 +13,7 @@ export async function sessionMiddleware(
 
     if (!sessionId) {
 
-        // /api/post is public. Can be used without a session and with a session
+        // -> /api/post is public. Can be used without a session and with a session
         if (req.baseUrl === "/api/messages" && req.method === "GET") {
             return next()
         }

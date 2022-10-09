@@ -58,7 +58,7 @@ posts.post("/", sessionMiddleware, async (req, res, next) => {
 /**
  * GET /api/posts/:id
  */
-posts.get("/:postId", sessionMiddleware, async (req, res, next) => {
+posts.get("/:postId", async (req, res, next) => {
 
     const { postId } = req.params
 
@@ -69,7 +69,6 @@ posts.get("/:postId", sessionMiddleware, async (req, res, next) => {
     }
 
     try {
-        console.log(`Getting post with id ${postIdAsNumber}`)
         const post = await prisma.post.findUnique({
             where: { id: postIdAsNumber },
             include: { author: true }
