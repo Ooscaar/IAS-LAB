@@ -114,3 +114,68 @@ messages.post("/:postId", sessionMiddleware, async (req, res, next) => {
         next(error)
     }
 })
+
+/**
+ * PATCH /api/messages/:messageId
+ */
+messages.patch("/:messageId", sessionMiddleware, async (req, res, next) => {
+    const userId = (req as any).userId
+
+    const { messageId } = req.params
+
+    const messageIdAsNumber = Number(messageId)
+
+    if (Number.isNaN(messageIdAsNumber)) {
+        return res.status(422).json({ message: "Invalid message id" })
+    }
+
+    const schema = Joi.object<{
+        message: string;
+    }>({
+        message: Joi.string().required(),
+    });
+
+    const { error, value } = schema.validate(req.body);
+
+    if (error) {
+        return res.status(422).json({ message: `Validation failed: ${error.message}` });
+    }
+
+    const { message } = value
+
+    const messageToModify = await prisma.message.findUnique({
+        where: { id: messageIdAsNumber }
+    })
+
+    if (!messageToModify) {
+        return res.status(404).json({ message: "Message not found" })
+    }
+
+    // Check user is owner of the post
+    if (userId !== messageToModify.authorId) {
+        return res.status(403).json({ message: "Forbidden, you are not the owner of the message" })
+    }
+
+    try {
+        const messageUpdated = await prisma.message.update({
+            where: { id: messageIdAsNumber },
+            data: {
+                content: message,
+            }
+        })
+
+        // Update post lastModificationDate also
+        await prisma.post.update({
+            where: {
+                id: messageIdAsNumber
+            },
+            data: {
+                updatedAt: messageUpdated.updatedAt
+            }
+        })
+
+        return res.status(200).send()
+    } catch (error) {
+        next(error)
+    }
+})

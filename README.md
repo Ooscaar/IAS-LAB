@@ -137,6 +137,36 @@ Responses:
 - **401 Unauthorized**: You are not logged in
 - **422 Unprocessable Entity***: validation failed
 
+### Modify a post
+```
+PATCH /api/posts/[postId]
+```
+
+Body:
+```
+{
+    "title": "Hello world",
+    "isPrivate": true,
+}
+```
+
+Responses:
+- **200 OK**
+    ```json
+    {
+        "id": 0,
+        "title": "Hello world",
+        "owner": "postOwner",
+        "isPrivate": true,
+        "creationDate": "2022-10-01T22:04:28Z",
+        "lastModificationDate": "2022-10-01T22:04:28Z"
+    }
+    ```
+- **401 Unauthorized**: You are not logged in
+- **403 Forbidden**: action forbidden 
+- **404 Not found**: post not found
+- **422 Unprocessable Entity***: validation failed
+
 
 ### Listing posts
 Returns a list with the posts in every page.
@@ -228,5 +258,24 @@ Responses:
 - **200 OK**
 - **401 Unauthorized**: You are not logged in
 - **404 Not found**: post not found
+- **422 Unprocessable Entity***: validation failed
+
+### Update a message
+```
+PATCH /api/messages/[postId]
+```
+
+Body:
+```
+{
+    "message": "Hello, this is a message"
+}
+```
+
+Responses:
+- **200 OK**
+- **401 Unauthorized**: You are not logged in
+- **403 Forbidden**: action forbidden 
+- **404 Not found**: message not found
 - **422 Unprocessable Entity***: validation failed
 

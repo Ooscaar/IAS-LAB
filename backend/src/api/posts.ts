@@ -134,3 +134,75 @@ posts.get("/", async (req, res, next) => {
         next(error)
     }
 })
+
+/**
+ * PATCH /api/posts/:id
+ */
+posts.patch("/:postId", sessionMiddleware, async (req, res, next) => {
+    const userId = (req as any).userId
+
+    const { postId } = req.params
+
+    const postIdAsNumber = Number(postId)
+
+    if (Number.isNaN(postIdAsNumber)) {
+        return res.status(422).json({ message: "Invalid post id" })
+    }
+
+    const schema = Joi.object<{
+        title?: string;
+        isPrivate?: boolean
+    }>({
+        title: Joi.string().optional(),
+        isPrivate: Joi.boolean().optional()
+    });
+
+    const { error, value } = schema.validate(req.body);
+
+    if (error) {
+        return res.status(422).json({ message: `Validation failed: ${error.message}` });
+    }
+
+    const { title, isPrivate } = value
+
+    if (title === undefined && isPrivate === undefined) {
+        return res.status(422).json({ message: `Validation failed: body is required` });
+    }
+
+    const post = await prisma.post.findUnique({
+        where: { id: postIdAsNumber }
+    })
+
+    if (!post) {
+        return res.status(404).json({ message: "Post not found" })
+    }
+
+    // Check user is owner of the post
+    if (userId !== post.authorId) {
+        return res.status(403).json({ message: "Forbidden, you are not the owner of the post" })
+    }
+
+    try {
+        const postUpdated = await prisma.post.update({
+            where: { id: postIdAsNumber },
+            data: {
+                title: title,
+                private: isPrivate
+            },
+            include: { author: true }
+        })
+
+        return res.status(200).json({
+            post: {
+                id: postUpdated.id,
+                title: postUpdated.title,
+                owner: postUpdated.author.username,
+                isPrivate: postUpdated.private,
+                creationDate: postUpdated.createdAt,
+                lastModificationDate: postUpdated.updatedAt
+            }
+        })
+    } catch (error) {
+        next(error)
+    }
+})
