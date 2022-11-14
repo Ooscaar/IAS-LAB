@@ -38,6 +38,7 @@ model Post {
   updatedAt DateTime  @updatedAt @map("updated_at")
   title     String
   private   Boolean   @default(false)
+  deleted   Boolean   @default(false)
   content   String?
   authorId  Int       @map("author_id")
   author    User      @relation(fields: [authorId], references: [id])
@@ -51,6 +52,7 @@ model Message {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   content   String
+  deleted   Boolean  @default(false)
   authorId  Int      @map("author_id")
   author    User     @relation(fields: [authorId], references: [id])
   postId    Int      @map("post_id")

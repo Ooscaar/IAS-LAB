@@ -13,6 +13,7 @@
 - updated_at
 - title
 - author_id
+- deleted
 - private
 
 ## Messages table
@@ -23,6 +24,7 @@
 - content
 - author_id
 - post_id
+- deleted
 
 # API
 
@@ -105,10 +107,12 @@ Response (dates are ISO UTC):
         "title": "Post title",
         "owner": "postOwner",
         "isPrivate": true,
+        "isDeleted": false,
         "creationDate": "2022-10-01T22:04:28Z",
         "lastModificationDate": "2022-10-01T22:04:28Z"
     }
     ```
+- **400 Bad Request**: post is deleted
 - **404 Not found**: post not found
 - **422 Unprocessable Entity***: validation failed
 
@@ -154,14 +158,28 @@ Responses:
 - **200 OK**
     ```json
     {
-        "id": 0,
-        "title": "Hello world",
-        "owner": "postOwner",
-        "isPrivate": true,
-        "creationDate": "2022-10-01T22:04:28Z",
-        "lastModificationDate": "2022-10-01T22:04:28Z"
+        "id": 1,
     }
     ```
+- **400 Bad Request**: post is deleted
+- **401 Unauthorized**: You are not logged in
+- **403 Forbidden**: action forbidden 
+- **404 Not found**: post not found
+- **422 Unprocessable Entity***: validation failed
+
+### Delete a post
+```
+DELETE /api/posts/[postId]
+```
+
+Responses:
+- **200 OK**
+    ```json
+    {
+        "id": 1,
+    }
+    ```
+- **400 Bad Request**: post is deleted
 - **401 Unauthorized**: You are not logged in
 - **403 Forbidden**: action forbidden 
 - **404 Not found**: post not found
@@ -225,14 +243,16 @@ Response (dates are ISO UTC):
                 {
                     "id": 0,
                     "owner": "postOwner",
-                    "message": "The first message is always created by the postOwner"
+                    "message": "The first message is always created by the postOwner",
+                    "isDeleted": false,
                     "creationDate": "2022-10-01T22:04:28Z",
                     "lastModificationDate": "2022-10-01T22:04:28Z"
                 },
                 {
                     "id": 1,
                     "owner": "user1",
-                    "message": "Hello, this is the first comment!"
+                    "message": "Hello, this is the first comment!",
+                    "isDeleted": true,
                     "creationDate": "2022-10-01T22:04:28Z",
                     "lastModificationDate": "2022-10-01T22:04:28Z"
                 }
@@ -274,8 +294,27 @@ Body:
 
 Responses:
 - **200 OK**
+- **400 Bad Request**: post or message is deleted
 - **401 Unauthorized**: You are not logged in
 - **403 Forbidden**: action forbidden 
 - **404 Not found**: message not found
 - **422 Unprocessable Entity***: validation failed
 
+
+### Delete a message
+```
+DELETE /api/messages/[messageId]
+```
+
+Responses:
+- **200 OK**
+    ```json
+    {
+        "id": 1,
+    }
+    ```
+- **400 Bad Request**: post or message is deleted
+- **401 Unauthorized**: You are not logged in
+- **403 Forbidden**: action forbidden 
+- **404 Not found**: message not found
+- **422 Unprocessable Entity***: validation failed
