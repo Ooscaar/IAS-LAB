@@ -95,7 +95,7 @@ Response:
 ### Get a post
 Returns the post information
 
-```
+```http
 GET /api/posts/[postId]
 ```
 
@@ -118,12 +118,12 @@ Response (dates are ISO UTC):
 
 
 ### Creating a post
-```
+```http
 POST /api/posts
 ```
 
 Body:
-```
+```json
 {
     "title": "Hello world",
     "isPrivate": true,
@@ -142,12 +142,14 @@ Responses:
 - **422 Unprocessable Entity***: validation failed
 
 ### Modify a post
-```
+Modify a post, onyl by owners of the post.
+
+```http
 PATCH /api/posts/[postId]
 ```
 
 Body:
-```
+```json
 {
     "title": "Hello world",
     "isPrivate": true,
@@ -168,7 +170,9 @@ Responses:
 - **422 Unprocessable Entity***: validation failed
 
 ### Delete a post
-```
+Delete a post, by the owner or an admin user. 
+
+```http
 DELETE /api/posts/[postId]
 ```
 
@@ -188,17 +192,17 @@ Responses:
 
 ### Listing posts
 Returns a list with the posts in every page.
-```
+```http
 GET /api/posts?page=[pageNumber]
 ```
 
 Examples:
 - Return the first page (newest) posts (starts with 1):
-    ```
+    ```http
     GET /api/posts?page=1
     ```
 - Return the second page posts:
-    ```
+    ```http
     GET /api/posts?page=0
     ```
 
@@ -231,7 +235,7 @@ Response (dates are ISO UTC):
 
 ### Get messages in a post
 
-```
+```http
 GET /api/messages/[postId]
 ```
 
@@ -261,14 +265,15 @@ Response (dates are ISO UTC):
     ```
 - **401 Unauthorized**: You are not logged in and the post is private
 - **404 Not found**: message not found
+- **422 Unprocessable Entity***: validation failed
 
 ### Post a message
-```
+```http
 POST /api/messages/[postId]
 ```
 
 Body:
-```
+```json
 {
     "message": "Hello, this is a message"
 }
@@ -276,17 +281,20 @@ Body:
 
 Responses:
 - **200 OK**
+- **400 Bad Request**: post is deleted
 - **401 Unauthorized**: You are not logged in
 - **404 Not found**: post not found
 - **422 Unprocessable Entity***: validation failed
 
 ### Update a message
-```
+Update a message, by the owner of the message.
+
+```http
 PATCH /api/messages/[postId]
 ```
 
 Body:
-```
+```json
 {
     "message": "Hello, this is a message"
 }
@@ -302,7 +310,8 @@ Responses:
 
 
 ### Delete a message
-```
+Delete a message, by the owner of the message, owner of the post or an admin user.
+```http
 DELETE /api/messages/[messageId]
 ```
 
