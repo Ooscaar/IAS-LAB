@@ -92,6 +92,10 @@ messages.post("/:postId", sessionMiddleware, async (req, res, next) => {
             return res.status(404).json({ message: "Post not found" })
         }
 
+        if (post.deleted) {
+            return res.status(400).json({ message: "Post is deleted, can not create new message" })
+        }
+
         const messageCreated = await prisma.message.create({
             data: {
                 content: message,
