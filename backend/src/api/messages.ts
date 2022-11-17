@@ -32,6 +32,10 @@ messages.get("/:postId", sessionMiddleware, async (req, res, next) => {
             return res.status(404).json({ message: "Post not found" })
         }
 
+        if (post.deleted) {
+            return res.status(400).json({ message: "Post is deleted" })
+        }
+
         const userId = (req as any).userId
 
         // Private posts can only be accessed by the authenticated users
@@ -43,7 +47,9 @@ messages.get("/:postId", sessionMiddleware, async (req, res, next) => {
             messages: post.messages.map(message => ({
                 id: message.id,
                 owner: message.author.username,
-                content: message.content,
+                content: message.deleted ?
+                    undefined :
+                    message.content,
                 creationDate: message.createdAt,
                 isDeleted: message.deleted,
                 lastModificationDate: message.updatedAt

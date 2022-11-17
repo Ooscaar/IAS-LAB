@@ -247,7 +247,7 @@ Response (dates are ISO UTC):
                 {
                     "id": 0,
                     "owner": "postOwner",
-                    "message": "The first message is always created by the postOwner",
+                    "content": "The first message is always created by the postOwner",
                     "isDeleted": false,
                     "creationDate": "2022-10-01T22:04:28Z",
                     "lastModificationDate": "2022-10-01T22:04:28Z"
@@ -255,7 +255,6 @@ Response (dates are ISO UTC):
                 {
                     "id": 1,
                     "owner": "user1",
-                    "message": "Hello, this is the first comment!",
                     "isDeleted": true,
                     "creationDate": "2022-10-01T22:04:28Z",
                     "lastModificationDate": "2022-10-01T22:04:28Z"
@@ -263,6 +262,7 @@ Response (dates are ISO UTC):
             ]
     }
     ```
+- **400 Bad Request**: post is deleted
 - **401 Unauthorized**: You are not logged in and the post is private
 - **404 Not found**: message not found
 - **422 Unprocessable Entity***: validation failed
