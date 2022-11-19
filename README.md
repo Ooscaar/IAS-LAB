@@ -290,7 +290,7 @@ Responses:
 Update a message, by the owner of the message.
 
 ```http
-PATCH /api/messages/[postId]
+PATCH /api/messages/[messageId]
 ```
 
 Body:
