@@ -306,6 +306,7 @@ h3 {
 
 .post-message p:nth-child(2) {
     font-size: 18px;
+    white-space: pre-wrap;
 }
 
 #new-message {
