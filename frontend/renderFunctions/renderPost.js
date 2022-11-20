@@ -27,6 +27,7 @@ export async function renderPost() {
         errorHTML.innerHTML = "You do not have access to this post."
         postContainer.appendChild(errorHTML);
     } else {
+        console.log(messages)
         Array.from(messages).forEach(message => {
             let interfaceMessage = document.createElement("div");
             interfaceMessage.classList.add("post-message");
