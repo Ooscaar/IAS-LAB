@@ -45,12 +45,18 @@ export async function renderPost() {
 
             interfaceMessage.appendChild(interfaceMessageInfo);
             interfaceMessage.appendChild(interfaceMessageText);
+            // Only the message owner or and admin can delete the message
             if (window.userInfo && ((!message.isDeleted && message.owner === window.userInfo.username) || window.userInfo.isAdmin)) {
-
                 let deleteButton = document.createElement("button");
                 deleteButton.innerHTML = 'Delete';
                 deleteButton.classList.add('delete-message');
                 deleteButton.onclick = () => Actions.deleteMessage(message.id);
+
+                interfaceMessage.appendChild(deleteButton);
+            }
+
+            // Only the message owner can edit the message
+            if (window.userInfo && !message.isDeleted && message.owner === window.userInfo.username) {
 
                 let editForm = document.createElement("form");
                 editForm.classList.add('edit-form');
@@ -76,7 +82,6 @@ export async function renderPost() {
                 editForm.appendChild(editText);
                 editForm.appendChild(editSend);
 
-                interfaceMessage.appendChild(deleteButton);
                 interfaceMessage.appendChild(editButton);
                 interfaceMessage.appendChild(editForm);
             }
