@@ -94,4 +94,25 @@ export class Api {
     if (res.status === 200) return true;
     else return false;
   }
+
+  static async editMessage(message, messageId) {
+    let res = await fetch(`/api/messages/${messageId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: message })
+    });
+
+    if (res.status === 200) return true;
+    else return false;
+  }
+
+  static async deleteMessage(messageId) {
+    let res = await fetch(`/api/messages/${messageId}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    });
+
+    if (res.status === 200) return true;
+    else return false;
+  }
 }

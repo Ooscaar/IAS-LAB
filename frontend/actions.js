@@ -1,6 +1,37 @@
 import { Api } from "./api.js";
 
 class Actions {
+    static async changeColor() {
+        let r = document.querySelector(':root');
+        let icon = document.getElementById('style-img');
+
+        if (r.style.getPropertyValue('--color-font') == 'black') {
+            icon.src = "/icons/moon.svg";
+
+            r.style.setProperty('--color1', 'rgb(29, 30, 32)');
+            r.style.setProperty('--color2', 'rgb(50, 50, 50)');
+            r.style.setProperty('--color3', 'rgb(180, 180, 181)');
+
+            r.style.setProperty('--color-font', 'white');
+            r.style.setProperty('--color-font2', 'black');
+            r.style.setProperty('--color-font3', 'rgb(191, 191, 191)');
+
+            r.style.setProperty('--filter', 'invert(90%)');
+        } else {
+            icon.src = "/icons/sun.svg";
+
+            r.style.setProperty('--color1', 'rgb(246, 245, 243)');
+            r.style.setProperty('--color2', 'rgb(205, 205, 205)');
+            r.style.setProperty('--color3', 'rgb(75, 75, 74)');
+
+            r.style.setProperty('--color-font', 'black');
+            r.style.setProperty('--color-font2', 'white');
+            r.style.setProperty('--color-font3', 'rgb(64, 64, 64)');
+
+            r.style.setProperty('--filter', 'invert(0%)');
+        }
+    }
+
     static async loginForm(event) {
         event.preventDefault(); // Avoid the page reload
         // The username is inside a input with the name "username"
@@ -77,12 +108,26 @@ class Actions {
         event.preventDefault(); // Avoid the page reload
 
         let message = event.target.elements.message.value;
-        let postId = window.location.pathname.split("/")[2]
+        let postId = window.location.pathname.split("/")[2];
 
         // Detele te values
         event.target.elements.message.value = "";
 
         let res = await Api.newMessage(message, postId);
+        if (res) updatePath(window.location.pathname);
+    }
+
+    static async editMessage(event, messageId) {
+        event.preventDefault(); // Avoid the page reload
+
+        let message = event.target.elements.message.value;
+
+        let res = await Api.editMessage(message, messageId);
+        if (res) updatePath(window.location.pathname);
+    }
+
+    static async deleteMessage(messageId) {
+        let res = await Api.deleteMessage(messageId);
         if (res) updatePath(window.location.pathname);
     }
 }

@@ -1,3 +1,28 @@
+:root {
+    --color1: rgb(29, 30, 32);
+    --color2: rgb(50, 50, 50);
+    --color3: rgb(180, 180, 181);
+
+    --color-font: white;
+    --color-font2: black;
+    --color-font3: rgb(191, 191, 191);
+    --color-font4: rgb(0, 170, 255);
+
+    --filter: invert(90%);
+}
+
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
 .page {
     display: none;
 }
@@ -9,18 +34,18 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    color: #ffffff;
+    color: var(--color-font);
 }
 
 body {
-    background-color: rgb(29, 30, 32);
+    background-color: var(--color1);
 }
 
 /* BUTTONS */
 
 .button-login,
 .button-logout {
-    background-color: rgb(50, 50, 50);
+    background-color: var(--color2);
     font-size: 15px;
     padding: 10px;
     font-weight: bold;
@@ -30,31 +55,31 @@ body {
 }
 
 .button-register {
-    background-color: rgb(50, 50, 50);
+    background-color: var(--color2);
     font-size: 15px;
     padding: 10px;
     font-weight: bold;
     border-radius: 5px;
-    border: 1px solid rgb(180, 180, 181);
+    border: 1px solid var(--color3);
     cursor: pointer;
 }
 
 .user-form {
     width: 400px;
     max-width: 98%;
-    background-color: rgb(30, 30, 30);
+    background-color: var(--color1);
     position: absolute;
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
     border-radius: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--color2);
     padding: 50px 35px 20px 35px;
 }
 
 .user-form form * {
     font-family: 'Poppins', sans-serif;
-    color: #ffffff;
+    color: var(--color-font);
     letter-spacing: 0.5px;
     outline: none;
     border: none;
@@ -78,7 +103,7 @@ h3 {
     display: block;
     height: 50px;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.07);
+    background-color: var(--color2);
     border-radius: 3px;
     padding: 0 10px;
     margin-top: 8px;
@@ -87,14 +112,14 @@ h3 {
 }
 
 ::placeholder {
-    color: #e5e5e5;
+    color: var(--color-font);
 }
 
 .user-form form button {
     margin: 25px 0px;
     width: 100%;
-    background-color: #ffffff;
-    color: #080710;
+    background-color: var(--color-font);
+    color: var(--color-font2);
     padding: 15px 0;
     font-size: 18px;
     font-weight: 600;
@@ -104,12 +129,12 @@ h3 {
 
 .user-form p {
     text-align: center;
-    color: white;
+    color: var(--color-font);
 }
 
 .user-form p button {
     background: none;
-    color: #58a6ff;
+    color: var(--color-font4);
     border: none;
     padding: 0;
     font: inherit;
@@ -129,6 +154,7 @@ h3 {
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: 10px;
     padding: 0px 10px;
 }
 
@@ -151,7 +177,7 @@ h3 {
     width: 900px;
     max-width: 100%;
     margin: auto;
-    color: #ffffff;
+    color: color(--color-font);
     padding: 14px;
     border-radius: 10px;
     display: flex;
@@ -160,7 +186,7 @@ h3 {
 }
 
 .board-top button {
-    background-color: rgb(45, 46, 48);
+    background-color: var(--color2);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -175,11 +201,11 @@ h3 {
 }
 
 .board-top button img {
-    filter: invert(90%);
+    filter: var(--filter);
 }
 
 .board-post {
-    background-color: rgb(45, 46, 48);
+    background-color: var(--color2);
     border-radius: 10px;
     padding: 14px;
     display: flex;
@@ -189,7 +215,7 @@ h3 {
 }
 
 .board-post h1 {
-    color: rgb(218, 218, 219);
+    color: var(--color-font);
     font-size: 24px;
     display: flex;
     flex-direction: row;
@@ -197,11 +223,11 @@ h3 {
 }
 
 .board-post h1 img {
-    filter: invert(90%);
+    filter: var(--filter);
 }
 
 .board-post p {
-    color: rgb(218, 218, 219);
+    color: var(--color-font);
     font-weight: 100;
 }
 
@@ -216,7 +242,7 @@ h3 {
 
 #new-post-form * {
     font-family: 'Poppins', sans-serif;
-    color: #ffffff;
+    color: var(--color-font);
     letter-spacing: 0.5px;
     outline: none;
     border: none;
@@ -237,7 +263,7 @@ h3 {
     display: block;
     height: 50px;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.07);
+    background-color: var(--color2);
     border-radius: 3px;
     padding: 0 10px;
     margin-top: 8px;
@@ -249,7 +275,7 @@ h3 {
     display: block;
     height: 300px;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.07);
+    background-color: var(--color2);
     border-radius: 3px;
     padding: 10px 10px;
     margin-top: 8px;
@@ -261,8 +287,8 @@ h3 {
 #new-post-form button {
     margin: 25px 0px 0px 0px;
     width: 100%;
-    background-color: #ffffff;
-    color: #080710;
+    background-color: var(--color-font);
+    color: var(--color-font2);
     padding: 15px 0px;
     font-size: 18px;
     font-weight: 600;
@@ -283,7 +309,7 @@ h3 {
 }
 
 #post-container h1 {
-    color: rgb(218, 218, 219);
+    color: var(--color-font);
     font-size: 40px;
 }
 
@@ -292,7 +318,7 @@ h3 {
     flex-direction: column;
     gap: 10px;
     padding-bottom: 14px;
-    border-bottom: 1px solid rgb(180, 180, 181);
+    border-bottom: 1px solid var(--color3);
 }
 
 .post-container div:not(:first-child) {
@@ -300,7 +326,7 @@ h3 {
 }
 
 .post-message p:first-child {
-    color: rgb(218, 218, 219);
+    color: var(--color-font3);
     font-weight: 100;
 }
 
@@ -325,7 +351,7 @@ h3 {
     display: block;
     height: 200px;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.07);
+    background-color: var(--color2);
     border-radius: 3px;
     padding: 10px 10px;
     margin-top: 8px;
@@ -337,11 +363,44 @@ h3 {
 #new-message-form button {
     width: 100%;
     margin-top: 10px;
-    background-color: #ffffff;
-    color: #080710;
+    background-color: var(--color-font);
+    color: var(--color-font2);
     padding: 15px 0;
     font-size: 18px;
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.delete-message,
+.edit-button {
+    width: 100px;
+    background-color: var(--color-font);
+    color: var(--color-font2);
+}
+
+
+.edit-form {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit-text {
+    background-color: var(--color2);
+    color: var(--color-font);
+    padding: 10px;
+    height: 100px;
+}
+
+.edit-send {
+    background-color: var(--color-font);
+    color: var(--color-font2);
+    font-weight: bold;
+}
+
+#style-button {
+    background: none;
+    filter: var(--filter);
 }

@@ -15,6 +15,7 @@ export async function updateUserState() {
         for (let i = 0; i < interfaceUsernames.length; i++) {
             interfaceUsernames[i].innerHTML = userInfo.username;
         }
+        window.userInfo = userInfo;
         return true;
     } else {
         Array.from(document.getElementsByClassName('logged')).forEach(element => {
