@@ -54,15 +54,3 @@ window.hiddeLoader = hiddeLoader;
 history.replaceState(location.pathname, null, location.pathname);
 let popStateEvent = new PopStateEvent('popstate', { state: location.pathname });
 dispatchEvent(popStateEvent);
-
-
-/**
- * CHECK SESSION
- * 
- * 1. You enter to the application and it sends an Api.logged():
- *    1.1. If you are logged, state-logged = true
- *      1.1.1. If you do Actions.logoutButton() then state-logged = false
- *      1.1.2. If any action returns a 401 then state-logged = false
- *    1.2. If you are not logged, state-logged = false. The only way to change
- *          state to true is via Actions.loginForm()
- */

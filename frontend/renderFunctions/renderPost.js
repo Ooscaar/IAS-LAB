@@ -37,10 +37,49 @@ export async function renderPost() {
             interfaceMessageInfo.innerHTML = dateAndOwnerInfo(date, message.owner);
 
             let interfaceMessageText = document.createElement("p");
-            interfaceMessageText.innerHTML = message.content;
+            if (message.isDeleted) {
+                interfaceMessageText.innerHTML = "Deleted message";
+                interfaceMessageText.style.color = "red";
+            }
+            else interfaceMessageText.innerHTML = message.content;
 
             interfaceMessage.appendChild(interfaceMessageInfo);
             interfaceMessage.appendChild(interfaceMessageText);
+            if (window.userInfo && ((!message.isDeleted && message.owner === window.userInfo.username) || window.userInfo.isAdmin)) {
+
+                let deleteButton = document.createElement("button");
+                deleteButton.innerHTML = 'Delete';
+                deleteButton.classList.add('delete-message');
+                deleteButton.onclick = () => Actions.deleteMessage(message.id);
+
+                let editForm = document.createElement("form");
+                editForm.classList.add('edit-form');
+                editForm.onsubmit = (event) => Actions.editMessage(event, message.id);
+
+                let editText = document.createElement("textarea");
+                editText.classList.add('edit-text');
+                editText.value = message.content;
+                editText.name = 'message';
+
+                let editSend = document.createElement("button");
+                editSend.classList.add('edit-send');
+                editSend.innerHTML = "Send";
+
+                let editButton = document.createElement("button");
+                editButton.classList.add('edit-button');
+                editButton.innerHTML = "Edit";
+                editButton.onclick = () => {
+                    if (editForm.style.display == 'flex') editForm.style.display = 'none';
+                    else editForm.style.display = 'flex';
+                }
+
+                editForm.appendChild(editText);
+                editForm.appendChild(editSend);
+
+                interfaceMessage.appendChild(deleteButton);
+                interfaceMessage.appendChild(editButton);
+                interfaceMessage.appendChild(editForm);
+            }
 
             postContainer.appendChild(interfaceMessage);
         })
