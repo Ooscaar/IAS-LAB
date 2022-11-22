@@ -256,7 +256,7 @@ messages.delete("/:messageId", sessionMiddleware, async (req, res, next) => {
         // Update post lastModificationDate also
         await prisma.post.update({
             where: {
-                id: messageIdAsNumber
+                id: messageUpdated.postId
             },
             data: {
                 updatedAt: messageUpdated.updatedAt
