@@ -1,0 +1,10 @@
+.vscode
+db/
+docker-compose.yml
+README.md
+
+# Backend
+backend/node_modules
+backend/dist
+backend/scripts
+backend/frontend
