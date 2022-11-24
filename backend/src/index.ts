@@ -6,7 +6,7 @@ import path from "path";
 import { messages, posts, users } from "./api";
 
 const app = express();
-const port = 8085;
+const port = 8080;
 
 app.use(morgan("combined"))
 app.use(cookieParser())
