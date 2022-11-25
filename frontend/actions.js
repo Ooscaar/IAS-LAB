@@ -1,4 +1,5 @@
 import { Api } from "./api.js";
+import { updateUserState } from "./utils/updateUserState.js";
 
 class Actions {
     static async changeColor() {
@@ -80,6 +81,7 @@ class Actions {
         try {
             showLoader();
             await Api.logOut();
+            updateUserState();
             hiddeLoader();
             updatePath(location.pathname);
             return true;

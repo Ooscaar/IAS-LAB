@@ -24,6 +24,7 @@ export async function updateUserState() {
         Array.from(document.getElementsByClassName('not-logged')).forEach(element => {
             element.style.display = "block";
         })
+        window.userInfo = null;
         return false;
     }
 }
