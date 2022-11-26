@@ -4,14 +4,14 @@
 
 To start the system execute the following commands:
 
-```
-docker-composer --profile backend build
-docker-composer --profile backend up -d
+```bash
+docker-compose --profile backend build
+docker-compose --profile backend up -d
 ```
 
 ## Access to the web application
 
-You can access to the application via `http://localhost` or `https://localhost`. If you access to the HTTP version the reverse proxy will redirect you to the HTTPS site.
+You can access to the application via http://localhost or https://localhost. If you access to the HTTP version the reverse proxy will redirect you to the HTTPS site.
 
 ## Stop the system
 
