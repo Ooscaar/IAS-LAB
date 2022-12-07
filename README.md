@@ -50,7 +50,7 @@ npx prisma db push
 
 5. Run nodemon
 ```
-npx dotenv src/index.ts
+npx nodemon src/index.ts
 ```
 
 Backend will be available at http://localhost:8080
