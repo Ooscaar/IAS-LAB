@@ -18,6 +18,6 @@ You can access to the application via http://localhost or https://localhost. If 
 To stop the system execute the following command:
 
 ```
-docker-composer down
+docker-compose down
 ```
 
